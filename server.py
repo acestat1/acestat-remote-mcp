@@ -2,16 +2,16 @@ from fastmcp import FastMCP
 import os
 import requests
 
-mcp = FastMCP(
-    "ACE Statistical MCP",
-    stateless_http=True
-)
+mcp = FastMCP("ACE Statistical MCP")
 
 API_BASE = "https://acestat-logistic-mcp.onrender.com/"
 
 
 @mcp.tool()
 def health_check() -> dict:
+    """
+    ACE Statistical MCP 서버와 기존 분석 API 연결 상태를 확인합니다.
+    """
     r = requests.get(API_BASE)
 
     return {
@@ -27,15 +27,5 @@ if __name__ == "__main__":
     mcp.run(
         transport="http",
         host="0.0.0.0",
-        port=port,
-        path="/mcp/",
-        allowed_hosts=[
-            "acestat-remote-mcp.onrender.com",
-            "127.0.0.1",
-            "localhost"
-        ],
-        allowed_origins=[
-            "https://claude.ai",
-            "https://acestat-remote-mcp.onrender.com"
-        ]
+        port=port
     )
